@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- 基本信息 -->
+    <key>CFBundleIdentifier</key>
+    <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+    <key>CFBundleName</key>
+    <string>$(PRODUCT_NAME)</string>
+    <key>CFBundlePackageType</key>
+    <string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
+    <key>CFBundleShortVersionString</key>
+    <string>1.0</string>
+    <key>CFBundleVersion</key>
+    <string>1</string>
+    <key>LSMinimumSystemVersion</key>
+    <string>$(MACOSX_DEPLOYMENT_TARGET)</string>
+    
+    <!-- 权限描述 -->
+    <key>NSAppleEventsUsageDescription</key>
+    <string>需要控制鼠标权限来实现远程控制功能</string>
+    <key>NSAccessibilityUsageDescription</key>
+    <string>需要辅助功能权限来控制鼠标</string>
+    <key>NSLocalNetworkUsageDescription</key>
+    <string>需要使用本地网络来提供远程控制服务</string>
+    <key>Privacy - Accessibility Usage Description</key>
+    <string>需要辅助功能权限来控制鼠标</string>
+    
+    <!-- 网络配置 -->
+    <key>NSBonjourServices</key>
+    <array>
+        <string>_ws._tcp</string>
+        <string>_ws._udp</string>
+    </array>
+    
+    <!-- 主界面配置 -->
+    <key>NSMainStoryboardFile</key>
+    <string>Main</string>
+    <key>NSPrincipalClass</key>
+    <string>NSApplication</string>
+</dict>
+</plist> 
