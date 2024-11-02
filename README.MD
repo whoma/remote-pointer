@@ -1,10 +1,9 @@
 远程鼠标，可通过扫描二维码后，进行鼠标操作，控制电脑
 
+<img src="./assets/init.png" width="300" alt="初始化">
 
-![初始化](./assets/init.png)
+<img src="./assets/set.png" width="300" alt="设置">
 
-![设置](./assets/set.png)
+<img src="./assets/link.png" width="300" alt="连接">
 
-![连接](./assets/link.png)
-
-![手机扫描后](./assets/phone.png)
+<img src="./assets/phone.png" width="300" alt="手机扫描后">

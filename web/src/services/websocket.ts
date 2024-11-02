@@ -17,7 +17,7 @@ export class WebSocketService {
     } else {
       // 如果没有提供 wsUrl 参数，使用默认的连接方式
       const host = window.location.hostname === 'localhost' ? 'localhost' : window.location.hostname
-      this.url = `WSS://${host}:8080`
+      this.url = `wss://${host}:8080`
     }
     
     console.log('WebSocket URL:', this.url)
