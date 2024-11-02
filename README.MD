@@ -1,5 +1,7 @@
 远程鼠标，可通过扫描二维码后，进行鼠标操作，控制电脑
 
+目前仅支持本地使用
+
 <img src="./assets/init.png" width="300" alt="初始化">
 
 <img src="./assets/set.png" width="300" alt="设置">
