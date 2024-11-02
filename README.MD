@@ -3,8 +3,8 @@
 
 ![初始化](./assets/init.png)
 
-![设置](./assets/setting.png)
+![设置](./assets/set.png)
 
-![连接](./assets/link.png.png)
+![连接](./assets/link.png)
 
-![手机扫描后](./assets/phone.jpeg.png)
+![手机扫描后](./assets/phone.png)
