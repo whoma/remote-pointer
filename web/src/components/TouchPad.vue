@@ -1,10 +1,15 @@
 <template>
-  <div class="touchpad">
+  <div class="touchpad" 
+    tabindex="0" 
+    ref="touchpad"
+    @keydown="handleKeyDown"
+    @compositionstart="handleCompositionStart"
+    @compositionend="handleCompositionEnd"
+  >
     <div class="connection-status" :class="{ connected: isConnected }">
       {{ isConnected ? '已连接' : '未连接' }}
     </div>
     <div class="touch-area"
-      ref="touchpad"
       @touchstart="handleTouchStart"
       @touchmove="handleTouchMove"
       @touchend="handleTouchEnd"
@@ -27,8 +32,60 @@ const touchpad = ref<HTMLElement | null>(null)
 const isConnected = ref(false)
 const lastTouchPosition = ref({ x: 0, y: 0 })
 const hasMoved = ref(false)
+const isComposing = ref(false)
 
 const ws = useWebSocket()
+
+// 处理输入法组合开始
+const handleCompositionStart = () => {
+  isComposing.value = true
+}
+
+// 处理输入法组合结束
+const handleCompositionEnd = (event: CompositionEvent) => {
+  isComposing.value = false
+  const text = event.data
+  if (text) {
+    ws.send(JSON.stringify({
+      type: 'KEY_INPUT',
+      data: {
+        text,
+        timestamp: Date.now()
+      }
+    }))
+  }
+}
+
+// 修改按键处理函数
+const handleKeyDown = (event: KeyboardEvent) => {
+  // 如果正在输入法组合，不处理按键事件
+  if (isComposing.value) return
+
+  // 处理普通字符输入
+  if (event.key.length === 1) {
+    ws.send(JSON.stringify({
+      type: 'KEY_INPUT',
+      data: {
+        text: event.key,
+        timestamp: Date.now()
+      }
+    }))
+    return
+  }
+
+  // 处理特殊按键
+  const specialKeys = ['Enter', 'Backspace', 'Tab', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Escape']
+  if (specialKeys.includes(event.key)) {
+    ws.send(JSON.stringify({
+      type: 'SPECIAL_KEY',
+      data: {
+        key: event.key,
+        timestamp: Date.now()
+      }
+    }))
+    event.preventDefault()
+  }
+}
 
 const handleTouchStart = (event: TouchEvent) => {
   const touch = event.touches[0]
@@ -122,6 +179,9 @@ onMounted(() => {
   ws.onClose(() => {
     isConnected.value = false
   })
+  
+  // 自动获取焦点以接收键盘事件
+  touchpad.value?.focus()
 })
 
 onUnmounted(() => {
@@ -138,6 +198,7 @@ onUnmounted(() => {
   position: relative;
   display: flex;
   flex-direction: column;
+  outline: none; /* 移除焦点时的轮廓 */
 }
 
 .connection-status {
@@ -195,5 +256,42 @@ onUnmounted(() => {
 
 .mouse-button.right {
   background: #5856D6;
+}
+
+/* 修改发送按钮为删除按钮的样式 */
+.delete-button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  background: #ff3b30; /* 使用红色表示删除 */
+  color: white;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.delete-button:active {
+  background: #dc3545;
+}
+
+/* 添加键盘输入区域样式 */
+.keyboard-input {
+  display: flex;
+  padding: 10px;
+  background: #fff;
+  border-top: 1px solid #eee;
+  gap: 10px;
+}
+
+.keyboard-input input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+  outline: none;
+}
+
+.keyboard-input input:focus {
+  border-color: #007AFF;
 }
 </style> 

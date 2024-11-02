@@ -8,9 +8,19 @@ export class WebSocketService {
   private onMessageCallbacks: ((data: any) => void)[] = []
   
   constructor() {
-    // 获取本地 IP 地址，用于局域网内连接
-    const host = window.location.hostname === 'localhost' ? 'localhost' : window.location.hostname
-    this.url = `ws://${host}:8080`
+    // 从 URL 参数中获取 wsUrl
+    const urlParams = new URLSearchParams(window.location.search)
+    const wsUrl = urlParams.get('wsUrl')
+    
+    if (wsUrl) {
+      this.url = wsUrl
+    } else {
+      // 如果没有提供 wsUrl 参数，使用默认的连接方式
+      const host = window.location.hostname === 'localhost' ? 'localhost' : window.location.hostname
+      this.url = `ws://${host}:8080`
+    }
+    
+    console.log('WebSocket URL:', this.url)
   }
   
   connect() {
